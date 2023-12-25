@@ -4,8 +4,10 @@ version = "0.1.0"
 description = "Compare two configuration files"
 authors = ["Aigars Sinevics <aigarzs@gmail.com>"]
 readme = "README.md"
-packages = [{include = "hexlet_code"}]
-
+packages = [{ include = "hexlet_code" },
+	{ include =  "gendiff" }
+	]
+ 
 [tool.poetry.dependencies]
 python = "^3.10"
 
