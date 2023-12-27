@@ -6,37 +6,23 @@ def generate_diff(file_path1, file_path2):
     dct1 = json.load(open(file_path1))
     dct2 = json.load(open(file_path2))
 
-    merged = {}
+    all_keys = sorted(set(dct1.keys()) | set(dct2.keys()))
 
-    for k in dct1:
-        v1 = dct1[k]
-        if k in dct2:
-            v2 = dct2[k]
-            merged[k] = [v1, v2]
-            del dct2[k]
-        else:
-            merged[k] = [v1, None]
-
-    for k in dct2:
-        v2 = dct2[k]
-        merged[k] = [None, v2]
-
-    diff = ""
-    for k in sorted(merged):
-        m = merged[k]
-        v1, v2 = m[0], m[1]
-
-        if v1 == v2:
-            diff += f"  {k}: {v1}\n"
-        elif v1 is None:
-            diff += f"+ {k}: {v2}\n"
-        elif v2 is None:
-            diff += f"- {k}: {v1}\n"
-        else:
-            diff += f"- {k}: {v1}\n+ {k}: {v2}\n"
-
-    diff = diff[:-1]
+    result = [compare_items(key, dct1, dct2) for key in all_keys]
+    diff = "\n".join(result)
     return diff
+
+
+def compare_items(key, data1, data2):
+    if key in data1 and key in data2:
+        if data1[key] == data2[key]:
+            return f"  {key}: {data1[key]}"
+        else:
+            return f"- {key}: {data1[key]}\n+ {key}: {data2[key]}"
+    elif key in data1:
+        return f"- {key}: {data1[key]}"
+    elif key in data2:
+        return f"+ {key}: {data2[key]}"
 
 
 if __name__ == "__main__":
