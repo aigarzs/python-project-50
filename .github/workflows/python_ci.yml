@@ -33,3 +33,6 @@ jobs:
         with:
           coverageCommand: make test-coverage
           debug: true
+          coverageLocations: |
+            ${{github.workspace}}/backend/services/tests/coverage/lcov.info:lcov
+            ${{github.workspace}}/frontend/src/tests/coverage/lcov.info:lcov
