@@ -12,6 +12,7 @@ packages = [{ include = "hexlet_code" },
 python = "^3.10"
 
 
+
 [tool.poetry.scripts]
 gendiff = "hexlet_code.scripts.gendiff:main"
 
@@ -20,6 +21,7 @@ gendiff = "hexlet_code.scripts.gendiff:main"
 flake8 = "^6.0.0"
 pytest = "^7.4.4"
 pytest-cov = "^4.1.0"
+clover = "^0.2.2"
 
 
 [build-system]
