@@ -25,6 +25,6 @@ def compare_items(key, data1, data2):
         return f"+ {key}: {data2[key]}"
 
 
-if __name__ == "__main__":
-    print(generate_diff("../tests/fixtures/test1_file1.json",
-                        "../tests/fixtures/test1_file2.json"))
+# if __name__ == "__main__":
+#    print(generate_diff("../tests/fixtures/test1_file1.json",
+#                        "../tests/fixtures/test1_file2.json"))
