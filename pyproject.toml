@@ -11,6 +11,7 @@ packages = [{ include = "hexlet_code" },
 [tool.poetry.dependencies]
 python = "^3.10"
 #lcov = "^1.15.5a0"
+pyyaml = "^6.0.1"
 
 
 
