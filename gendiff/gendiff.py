@@ -1,6 +1,6 @@
 import json
 import yaml
-from gendiff.compare import compare_data
+from gendiff.compare import compare_dictionaries
 
 
 def generate_diff(file_path1, file_path2):
@@ -19,10 +19,10 @@ def generate_diff(file_path1, file_path2):
 def generate_diff_yaml(file_path1, file_path2):
     dct1 = yaml.safe_load(open(file_path1))
     dct2 = yaml.safe_load(open(file_path2))
-    return compare_data(dct1, dct2)
+    return compare_dictionaries(dct1, dct2)
 
 
 def generate_diff_json(file_path1, file_path2):
     dct1 = json.load(open(file_path1))
     dct2 = json.load(open(file_path2))
-    return compare_data(dct1, dct2)
+    return compare_dictionaries(dct1, dct2)

@@ -1,5 +1,4 @@
 from gendiff import generate_diff
-import unittest
 
 
 def test_errors_1():
