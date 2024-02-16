@@ -30,29 +30,10 @@ def format_item(nested_level: int, item: tuple):
         for item in value:
             result += "\n" + format_item(nested_level + 1, item)
         result += "\n" + " " * 4 * nested_level + "}"
-    elif isinstance(value, dict):
-        # Dictionary without nested changes
-        # Dictionary with nested changes would appear here as nested list
-        result += format_line(nested_level, plus_minus, key,
-                              format_dictionary(nested_level + 1, value))
     else:
         # Format value in same line
         result += format_line(nested_level, plus_minus, key, value)
 
-    return result
-
-
-def format_dictionary(nested_level: int, dictionary: dict):
-    result = "{"
-    for key in dictionary:
-        value = dictionary[key]
-        if isinstance(value, dict):
-            result += "\n" + format_line(nested_level, " ", key,
-                                         format_dictionary(nested_level + 1, value))
-        else:
-            result += "\n" + format_line(nested_level, " ", key, value)
-
-    result += "\n" + " " * 4 * (nested_level - 1) + "}"
     return result
 
 
