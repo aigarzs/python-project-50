@@ -28,7 +28,7 @@ def compare_items(key, data1: dict, data2: dict):
             return [
                 format_value("-", key, data1[key]),
                 format_value("+", key, data2[key])
-                   ]
+            ]
     # key only in data1
     # return key (-) and value1
     elif key in data1:
