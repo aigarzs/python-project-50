@@ -6,5 +6,5 @@ def test_gendiff_json_nested_1():
                            "tests/fixtures/test4_file2.yml",
                            "stylish")
     print(result)
-    expected_result = open("tests/fixtures/test3_result").read()[:-1]
+    expected_result = open("tests/fixtures/test4_result").read()[:-1]
     assert result == expected_result
