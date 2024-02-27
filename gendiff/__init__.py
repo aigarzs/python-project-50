@@ -1,2 +1,3 @@
 from gendiff.gendiff import generate_diff
-from gendiff.view import get_view
+from gendiff.report import get_report
+from gendiff.compare import compare_dictionaries

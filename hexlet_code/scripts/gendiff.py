@@ -1,5 +1,5 @@
 import argparse
-from gendiff import generate_diff, get_view
+from gendiff import generate_diff
 
 
 def main():
@@ -14,9 +14,8 @@ def main():
     args = parser.parse_args()
 
     print(args.format)
-    diff = generate_diff(args.first_file, args.second_file)
-    view = get_view(diff, args.format)
-    print(view)
+    report = generate_diff(args.first_file, args.second_file, args.format)
+    print(report)
 
 
 if __name__ == "__main__":
