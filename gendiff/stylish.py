@@ -28,8 +28,7 @@ def format_item(nested_level: int, key, item):
     value = item[1]
 
     if status == "Changed":
-        value_old, value_new = item[1], item[2]
-        item_old, item_new = ("Removed", value_old), ("Added", value_new)
+        item_old, item_new = ("Removed", item[1]), ("Added", item[2])
 
         return (format_item(nested_level, key, item_old) + "\n"
                 + format_item(nested_level, key, item_new))
