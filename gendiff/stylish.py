@@ -21,9 +21,7 @@ def format_item(nested_level: int, key, item):
 
     result = ""
 
-    if (isinstance(item, tuple)
-            and len(item) > 1
-            and item[0] in ["Unchanged", "Changed", "Added", "Removed"]):
+    if is_valid_item(item):
         status = item[0]
         value = item[1]
     else:
@@ -32,18 +30,14 @@ def format_item(nested_level: int, key, item):
         item = (status, value)
 
     if status == "Changed":
-        if len(item) == 3:
-            value_old = item[1]
-            item_old = ("Removed", value_old)
-            value_new = item[2]
-            item_new = ("Added", value_new)
+        value_old = item[1]
+        item_old = ("Removed", value_old)
+        value_new = item[2]
+        item_new = ("Added", value_new)
 
-            result += format_item(nested_level, key, item_old) + "\n"
-            result += format_item(nested_level, key, item_new)
-            return result
-        else:
-            raise TypeError("For status == Changed, "
-                            "the old and the new values have to be provided")
+        result += format_item(nested_level, key, item_old) + "\n"
+        result += format_item(nested_level, key, item_new)
+        return result
 
     if isinstance(value, dict):
         result += format_dictionary(nested_level, key, item)
@@ -51,6 +45,24 @@ def format_item(nested_level: int, key, item):
         result += format_line(nested_level, key, item)
 
     return result
+
+
+def is_valid_item(item):
+    if not (isinstance(item, tuple)
+            and len(item) > 1
+            and item[0] in ["Unchanged", "Changed", "Added", "Removed"]):
+        return False
+
+    if item[0] == "Changed":
+        if len(item) == 3:
+            return True
+        else:
+            return False
+
+    if len(item) == 2:
+        return True
+    else:
+        return False
 
 
 def format_dictionary(nested_level: int, key, item: dict):
