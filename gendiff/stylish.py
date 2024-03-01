@@ -48,21 +48,17 @@ def format_item(nested_level: int, key, item):
 
 
 def is_valid_item(item):
-    if not (isinstance(item, tuple)
-            and len(item) > 1
-            and item[0] in ["Unchanged", "Changed", "Added", "Removed"]):
+    if not isinstance(item, tuple) or len(item) < 2:
         return False
 
-    if item[0] == "Changed":
-        if len(item) == 3:
-            return True
-        else:
-            return False
+    valid_status_options = ["Unchanged", "Changed", "Added", "Removed"]
+    if item[0] not in valid_status_options:
+        return False
 
-    if len(item) == 2:
+    if item[0] == "Changed" and len(item) == 3:
         return True
-    else:
-        return False
+
+    return len(item) == 2
 
 
 def format_dictionary(nested_level: int, key, item: dict):

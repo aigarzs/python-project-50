@@ -17,9 +17,7 @@ def format_item(nested_key, key, item):
         dictionary value in form not tuple never reaches this method,
         because Changed dictionary is returned as str("[complex value]")
         """
-    assert isinstance(item, tuple)
-    assert len(item) > 1
-    assert item[0] in ["Unchanged", "Changed", "Added", "Removed"]
+    assert is_valid_item(item)
 
     result = ""
     full_key = format_key(nested_key, key)
@@ -33,10 +31,22 @@ def format_item(nested_key, key, item):
         for k in value.keys():
             result += format_item(full_key, k, value[k])
     # else Unchanged return "" => skip this item
-    else:
-        return result
-
+    
     return result
+
+
+def is_valid_item(item):
+    if not isinstance(item, tuple) or len(item) < 2:
+        return False
+
+    valid_status_options = ["Unchanged", "Changed", "Added", "Removed"]
+    if item[0] not in valid_status_options:
+        return False
+
+    if item[0] == "Changed" and len(item) == 3:
+        return True
+
+    return len(item) == 2
 
 
 def format_key(nested_key, key):
