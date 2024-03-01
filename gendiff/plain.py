@@ -19,20 +19,19 @@ def format_item(nested_key, key, item):
         """
     assert is_valid_item(item)
 
-    result = ""
     full_key = format_key(nested_key, key)
     status = item[0]
     value = item[1]
 
     if status in ["Changed", "Added", "Removed"]:
-        result = format_row(full_key, item) + "\n"
+        return format_row(full_key, item) + "\n"
+
     # Unchanged dict means nested dict
     elif status == "Unchanged" and isinstance(value, dict):
-        for k in value.keys():
-            result += format_item(full_key, k, value[k])
-    # else Unchanged return "" => skip this item
+        return "".join(format_item(full_key, k, value[k]) for k in value.keys())
 
-    return result
+    # else Unchanged return "" => skip this item
+    return ""
 
 
 def is_valid_item(item):
