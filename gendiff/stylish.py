@@ -19,19 +19,17 @@ def format_item(nested_level: int, key, item):
     then format_line either format_dictionary
     """
 
-    if is_valid_item(item):
-        status = item[0]
-        value = item[1]
-    else:
+    if not is_valid_item(item):
         status = "Unchanged"
         value = item
         item = (status, value)
 
+    status = item[0]
+    value = item[1]
+
     if status == "Changed":
-        value_old = item[1]
-        item_old = ("Removed", value_old)
-        value_new = item[2]
-        item_new = ("Added", value_new)
+        value_old, value_new = item[1], item[2]
+        item_old, item_new = ("Removed", value_old), ("Added", value_new)
 
         return (format_item(nested_level, key, item_old) + "\n"
                 + format_item(nested_level, key, item_new))
