@@ -42,7 +42,8 @@ def format_item(nested_level: int, key, item):
             result += format_item(nested_level, key, item_new)
             return result
         else:
-            raise TypeError("For status == Changed, the old and the new values have to be provided")
+            raise TypeError("For status == Changed, "
+                            "the old and the new values have to be provided")
 
     if isinstance(value, dict):
         result += format_dictionary(nested_level, key, item)

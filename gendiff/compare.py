@@ -14,7 +14,8 @@ def compare_items(key, data1: dict, data2: dict):
         # if key matches and both value1 and value2 are dictionaries
         # return key with "Unchanged" and compare value1 with value2
         if isinstance(value1, dict) and isinstance(value2, dict):
-            return {key: ("Unchanged", compare_dictionaries(data1[key], data2[key]))}
+            return {key: ("Unchanged",
+                          compare_dictionaries(data1[key], data2[key]))}
         # if key matches and value1 is equal to value2
         # return key with "Unchanged" and value1
         elif value1 == value2:
