@@ -31,7 +31,7 @@ def format_item(nested_key, key, item):
         for k in value.keys():
             result += format_item(full_key, k, value[k])
     # else Unchanged return "" => skip this item
-    
+
     return result
 
 
