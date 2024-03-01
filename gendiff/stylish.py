@@ -19,8 +19,6 @@ def format_item(nested_level: int, key, item):
     then format_line either format_dictionary
     """
 
-    result = ""
-
     if is_valid_item(item):
         status = item[0]
         value = item[1]
@@ -35,16 +33,13 @@ def format_item(nested_level: int, key, item):
         value_new = item[2]
         item_new = ("Added", value_new)
 
-        result += format_item(nested_level, key, item_old) + "\n"
-        result += format_item(nested_level, key, item_new)
-        return result
+        return (format_item(nested_level, key, item_old) + "\n"
+                + format_item(nested_level, key, item_new))
 
     if isinstance(value, dict):
-        result += format_dictionary(nested_level, key, item)
+        return format_dictionary(nested_level, key, item)
     else:
-        result += format_line(nested_level, key, item)
-
-    return result
+        return format_line(nested_level, key, item)
 
 
 def is_valid_item(item):
