@@ -101,8 +101,8 @@ def format_line(nested_level: int, key, item):
               + plus_minus + " "
               + str(key) + ":")
 
-    if value != "":
-        result += " " + format_value_json_style(value)
+    # if value != "":
+    result += " " + format_value_json_style(value)
 
     return result
 

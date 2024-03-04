@@ -83,5 +83,7 @@ def format_value(value):
         return "null"
     elif type(value) is bool:
         return str(value).lower()
+    elif type(value) is int or type(value) is float:
+        return str(value)
     else:
         return "'" + str(value) + "'"
