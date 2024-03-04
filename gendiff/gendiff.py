@@ -4,7 +4,7 @@ from gendiff.compare import compare_dictionaries
 from gendiff.report import get_report
 
 
-def generate_diff(file_path1, file_path2, format_name):
+def generate_diff(file_path1, file_path2, format_name="stylish"):
     assert isinstance(file_path1, str)
     assert isinstance(file_path2, str)
 
