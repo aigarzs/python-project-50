@@ -13,7 +13,8 @@ def generate_diff(file_path1, file_path2, format_name="stylish"):
 
     diff_dict = compare_dictionaries(dct1, dct2)
     report = get_report(diff_dict, format_name)
-    return format_name + "\n" + report
+    # return format_name + "\n" + report
+    return report
 
 
 def generate_dict(file_path):
