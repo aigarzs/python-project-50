@@ -26,6 +26,7 @@ make install
 This program compares two JSON or YML files and outputs differences in FORMAT.
 If option --format omitted, default format `stylish` is applied.
 Available output formats are `plain` `stylish` `json`
+
 `poetry run gendiff --format FORMAT file1_path file2_path`
 
 
