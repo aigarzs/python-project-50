@@ -1,4 +1,4 @@
-from gendiff import stylish, plain, json
+from gendiff.report import json, plain, stylish
 
 
 def get_report(diff_dict, format_name):

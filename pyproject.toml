@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Compare two configuration files"
 authors = ["Aigars Sinevics <aigarzs@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "hexlet_code" },
+packages = [{ include = "scripts" },
 	{ include =  "gendiff" },
 	{ include = "tests" }
 	]
@@ -17,7 +17,7 @@ pyyaml = "^6.0.1"
 
 
 [tool.poetry.scripts]
-gendiff = "hexlet_code.scripts.gendiff:main"
+gendiff = "scripts.gendiff:main"
 
 
 [tool.poetry.group.dev.dependencies]
