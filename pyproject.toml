@@ -4,8 +4,7 @@ version = "0.1.0"
 description = "Compare two configuration files"
 authors = ["Aigars Sinevics <aigarzs@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "scripts" },
-	{ include =  "gendiff" },
+packages = [{ include =  "gendiff" },
 	{ include = "tests" }
 	]
  
@@ -17,7 +16,7 @@ pyyaml = "^6.0.1"
 
 
 [tool.poetry.scripts]
-gendiff = "scripts.gendiff:main"
+gendiff = "gendiff.scripts.gendiff:main"
 
 
 [tool.poetry.group.dev.dependencies]
