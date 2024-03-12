@@ -59,8 +59,8 @@ def filter_dict_unchanged(diff: dict):
     result = {}
     for key in diff.keys():
         item = diff[key]
-        if is_gendiff_item(item) and item[0] == "Unchanged":
-            value = item[1]
+        if is_gendiff_item(item) and item.get("status") == "Unchanged":
+            value = item.get("value")
             if isinstance(value, dict):
                 value = filter_dict_unchanged(value)
             result.update({key: value})
@@ -72,14 +72,14 @@ def filter_dict_added(diff: dict):
     for key in diff.keys():
         item = diff[key]
         if is_gendiff_item(item):
-            if item[0] == "Added":
-                value = item[1]
+            if item.get("status") == "Added":
+                value = item.get("value")
                 result.update({key: value})
-            elif item[0] == "Changed":
-                value = item[2]
+            elif item.get("status") == "Changed":
+                value = item.get("value new")
                 result.update({key: value})
-            elif item[0] == "Unchanged" and isinstance(item[1], dict):
-                value = item[1]
+            elif item.get("status") == "Unchanged" and isinstance(item.get("value"), dict):
+                value = item.get("value")
                 value = filter_dict_added(value)
                 result.update({key: value})
 
@@ -91,14 +91,14 @@ def filter_dict_removed(diff: dict):
     for key in diff.keys():
         item = diff[key]
         if is_gendiff_item(item):
-            if item[0] == "Removed":
-                value = item[1]
+            if item.get("status") == "Removed":
+                value = item.get("value")
                 result.update({key: value})
-            elif item[0] == "Changed":
-                value = item[1]
+            elif item.get("status") == "Changed":
+                value = item.get("value old")
                 result.update({key: value})
-            elif item[0] == "Unchanged" and isinstance(item[1], dict):
-                value = item[1]
+            elif item.get("status") == "Unchanged" and isinstance(item.get("value"), dict):
+                value = item.get("value")
                 value = filter_dict_removed(value)
                 result.update({key: value})
 
@@ -106,14 +106,15 @@ def filter_dict_removed(diff: dict):
 
 
 def is_gendiff_item(item):
-    if not isinstance(item, tuple) or len(item) < 2:
+    if not isinstance(item, dict) or len(item) < 2:
         return False
 
     valid_status_options = ["Unchanged", "Changed", "Added", "Removed"]
-    if item[0] not in valid_status_options:
+    if item.get("status") not in valid_status_options:
         return False
 
-    if item[0] == "Changed" and len(item) == 3:
+    if (item.get("status") == "Changed" and len(item) == 3
+            and "value old" in item and "value new" in item):
         return True
 
-    return len(item) == 2
+    return len(item) == 2 and "value" in item

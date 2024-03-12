@@ -10,25 +10,24 @@ def get_report(diff: dict):
 
 def format_item(nested_level: int, key, item):
     """
-    1) item => Tuple - (status, value)
-    2) item => Tuple - (status, nested dictionary)
+    1) item => Dict - {status, value}
+    2) item => Dict - {status, nested dictionary}
     3) item => value
     4) item => nested dictionary
 
-    first ensure that item is of type tuple(status, value)
+    first ensure that item is of type dict{status, value}
     then format_line either format_dictionary
     """
 
     if not is_valid_item(item):
-        status = "Unchanged"
-        value = item
-        item = (status, value)
+        item = {"status": "Unchanged", "value": item}
 
-    status = item[0]
-    value = item[1]
+    status = item.get("status")
+    value = item.get("value")
 
     if status == "Changed":
-        item_old, item_new = ("Removed", item[1]), ("Added", item[2])
+        item_old = {"status": "Removed", "value": item.get("value old")}
+        item_new = {"status": "Added", "value": item.get("value new")}
 
         return (format_item(nested_level, key, item_old) + "\n"
                 + format_item(nested_level, key, item_new))
@@ -40,17 +39,18 @@ def format_item(nested_level: int, key, item):
 
 
 def is_valid_item(item):
-    if not isinstance(item, tuple) or len(item) < 2:
+    if not isinstance(item, dict) or len(item) < 2:
         return False
 
     valid_status_options = ["Unchanged", "Changed", "Added", "Removed"]
-    if item[0] not in valid_status_options:
+    if item.get("status") not in valid_status_options:
         return False
 
-    if item[0] == "Changed" and len(item) == 3:
+    if (item.get("status") == "Changed" and len(item) == 3
+            and "value old" in item and "value new" in item):
         return True
 
-    return len(item) == 2
+    return len(item) == 2 and "value" in item
 
 
 def format_dictionary(nested_level: int, key, item: dict):
@@ -58,17 +58,17 @@ def format_dictionary(nested_level: int, key, item: dict):
 
     :param nested_level:
     :param key:
-    :param item: tuple(status, value)
+    :param item: dict{status, value}
     status => Unchanged / Added / Removed
     :return: str
     """
 
-    assert len(item) == 2
-    assert isinstance(item[1], dict)
+    assert len(item) == 2, "This method works only with gendiff.compare prepared diff dictionary"
+    assert isinstance(item.get("value"), dict), "This method works only for values of type dict"
 
-    status = item[0]
+    status = item.get("status")
     plus_minus = format_plus_minus(status)
-    dct = item[1]
+    dct = item.get("value")
 
     result = (" " * (4 * nested_level - 2)
               + plus_minus + " "
@@ -86,16 +86,16 @@ def format_line(nested_level: int, key, item):
 
     :param nested_level:
     :param key:
-    :param item: tuple(status, value)
+    :param item: dict{status, value}
     status => Unchanged / Added / Removed
     :return: str
     """
 
-    assert len(item) == 2
+    assert len(item) == 2, "This method works only with gendiff.compare prepared diff dictionary"
 
-    status = item[0]
+    status = item.get("status")
     plus_minus = format_plus_minus(status)
-    value = item[1]
+    value = item.get("value")
 
     result = (" " * (4 * nested_level - 2)
               + plus_minus + " "

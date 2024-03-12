@@ -9,19 +9,19 @@ def get_report(diff: dict):
 
 def format_item(nested_key, key, item):
     """
-        Working only with items => tuple(status, value/dict)
+        Working only with items => dict{status, value/dict}
 
-        1) item => Tuple - (status, value)
-        2) item => Tuple - (status, nested dictionary)
+        1) item => Dict - {status, value}
+        2) item => Dict - {status, nested dictionary}
 
-        dictionary value in form not tuple never reaches this method,
+        dictionary value in form not `gendiff.compare` diff dict never reaches this method,
         because Changed dictionary is returned as str("[complex value]")
         """
-    assert is_valid_item(item)
+    assert is_valid_item(item), "Working only with items => dict{status, value/dict}"
 
     full_key = format_key(nested_key, key)
-    status = item[0]
-    value = item[1]
+    status = item.get("status")
+    value = item.get("value")
 
     if status in ["Changed", "Added", "Removed"]:
         return format_row(full_key, item) + "\n"
@@ -35,17 +35,18 @@ def format_item(nested_key, key, item):
 
 
 def is_valid_item(item):
-    if not isinstance(item, tuple) or len(item) < 2:
+    if not isinstance(item, dict) or len(item) < 2:
         return False
 
     valid_status_options = ["Unchanged", "Changed", "Added", "Removed"]
-    if item[0] not in valid_status_options:
+    if item.get("status") not in valid_status_options:
         return False
 
-    if item[0] == "Changed" and len(item) == 3:
+    if (item.get("status") == "Changed" and len(item) == 3
+            and "value old" in item and "value new" in item):
         return True
 
-    return len(item) == 2
+    return len(item) == 2 and "value" in item
 
 
 def format_key(nested_key, key):
@@ -56,20 +57,18 @@ def format_key(nested_key, key):
 
 
 def format_row(full_key, item):
-    assert isinstance(item, tuple)
-    assert len(item) > 1
-    assert item[0] in ["Changed", "Added", "Removed"]
-    if item[0] == "Changed":
-        assert len(item) == 3
+    assert is_valid_item(item), "Working only with items `gendiff.compare` diff dict"
+    assert item.get("status") in ["Changed", "Added", "Removed"], \
+        "Working only with statuses ['Changed', 'Added', 'Removed']"
 
-    status = item[0]
+    status = item.get("status")
     result = ""
     if status == "Changed":
         result = f"Property '{full_key}' was updated. "
-        result += f"From {format_value(item[1])} to {format_value(item[2])}"
+        result += f"From {format_value(item.get('value old'))} to {format_value(item.get('value new'))}"
     elif status == "Added":
         result = f"Property '{full_key}' was added "
-        result += f"with value: {format_value(item[1])}"
+        result += f"with value: {format_value(item.get('value'))}"
     elif status == "Removed":
         result = f"Property '{full_key}' was removed"
 
