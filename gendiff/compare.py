@@ -14,9 +14,7 @@ def compare_dictionaries(dict1: dict, dict2: dict):
                 result[key] = ("Changed", value1, value2)
         elif key in dict1:
             result[key] = ("Removed", dict1[key])
-        elif key in dict2:
+        else:  # key in dict2:
             result[key] = ("Added", dict2[key])
-        else:
-            raise KeyError(f"key '{key}' not in data1 nor data2")
 
     return result
