@@ -23,11 +23,11 @@ def format_item(nested_key, key, item):
     status = item.get("status")
     value = item.get("value")
 
-    if status in ["Changed", "Added", "Removed"]:
+    if status in ["changed", "added", "removed"]:
         return format_row(full_key, item) + "\n"
 
-    # Unchanged dict means nested dict
-    elif status == "Unchanged" and isinstance(value, dict):
+    # nested dict
+    elif status == "nested dict" and isinstance(value, dict):
         return "".join(format_item(full_key, k, value[k]) for k in value.keys())
 
     # else Unchanged return "" => skip this item
@@ -38,11 +38,11 @@ def is_valid_item(item):
     if not isinstance(item, dict) or len(item) < 2:
         return False
 
-    valid_status_options = ["Unchanged", "Changed", "Added", "Removed"]
+    valid_status_options = ["unchanged", "changed", "added", "removed", "nested dict"]
     if item.get("status") not in valid_status_options:
         return False
 
-    if (item.get("status") == "Changed" and len(item) == 3
+    if (item.get("status") == "changed" and len(item) == 3
             and "value old" in item and "value new" in item):
         return True
 
@@ -58,18 +58,18 @@ def format_key(nested_key, key):
 
 def format_row(full_key, item):
     assert is_valid_item(item), "Working only with items `gendiff.compare` diff dict"
-    assert item.get("status") in ["Changed", "Added", "Removed"], \
-        "Working only with statuses ['Changed', 'Added', 'Removed']"
+    assert item.get("status") in ["changed", "added", "removed"], \
+        "Working only with statuses ['changed', 'added', 'removed']"
 
     status = item.get("status")
     result = ""
-    if status == "Changed":
+    if status == "changed":
         result = f"Property '{full_key}' was updated. "
         result += f"From {format_value(item.get('value old'))} to {format_value(item.get('value new'))}"
-    elif status == "Added":
+    elif status == "added":
         result = f"Property '{full_key}' was added "
         result += f"with value: {format_value(item.get('value'))}"
-    elif status == "Removed":
+    elif status == "removed":
         result = f"Property '{full_key}' was removed"
 
     return result

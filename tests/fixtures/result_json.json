@@ -1,0 +1,91 @@
+{
+    "unchanged": {
+        "common": {
+            "setting1": "Value 1",
+            "setting6": {
+                "doge": {},
+                "key": "value"
+            }
+        },
+        "group1": {
+            "foo": "bar"
+        },
+        "group4": {
+            "nest": {}
+        }
+    },
+    "added": {
+        "common": {
+            "follow": false,
+            "setting3": {
+                "key": "value"
+            },
+            "setting4": "blah blah",
+            "setting5": {
+                "key5": "value5"
+            },
+            "setting6": {
+                "doge": {
+                    "wow": "so much"
+                },
+                "ops": "vops"
+            }
+        },
+        "group1": {
+            "baz": "bars",
+            "nest": "str"
+        },
+        "group3": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        },
+        "group4": {
+            "default": "",
+            "foo": null,
+            "isNested": "none",
+            "key": false,
+            "nest": {
+                "bar": 0
+            },
+            "someKey": true,
+            "type": "bar"
+        }
+    },
+    "removed": {
+        "common": {
+            "setting2": 200,
+            "setting3": true,
+            "setting6": {
+                "doge": {
+                    "wow": "too much"
+                }
+            }
+        },
+        "group1": {
+            "baz": "bas",
+            "nest": {
+                "key": "value"
+            }
+        },
+        "group2": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        },
+        "group4": {
+            "default": null,
+            "foo": 0,
+            "isNested": false,
+            "nest": {
+                "bar": "",
+                "isNested": true
+            },
+            "type": "bas"
+        }
+    }
+}

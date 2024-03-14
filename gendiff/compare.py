@@ -7,18 +7,18 @@ def compare_dictionaries(dict1: dict, dict2: dict):
         if key in dict1 and key in dict2:
             value1, value2 = dict1[key], dict2[key]
             if isinstance(value1, dict) and isinstance(value2, dict):
-                result[key] = {"status": "Unchanged",
+                result[key] = {"status": "nested dict",
                                "value": compare_dictionaries(value1, value2)}
 
             elif value1 == value2:
-                result[key] = {"status": "Unchanged", "value": value1}
+                result[key] = {"status": "unchanged", "value": value1}
             else:
-                result[key] = {"status": "Changed",
+                result[key] = {"status": "changed",
                                "value old": value1,
                                "value new": value2}
         elif key in dict1:
-            result[key] = {"status": "Removed", "value": dict1[key]}
+            result[key] = {"status": "removed", "value": dict1[key]}
         else:  # key in dict2:
-            result[key] = {"status": "Added", "value": dict2[key]}
+            result[key] = {"status": "added", "value": dict2[key]}
 
     return result

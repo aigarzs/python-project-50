@@ -20,14 +20,14 @@ def format_item(nested_level: int, key, item):
     """
 
     if not is_valid_item(item):
-        item = {"status": "Unchanged", "value": item}
+        item = {"status": "unchanged", "value": item}
 
     status = item.get("status")
     value = item.get("value")
 
-    if status == "Changed":
-        item_old = {"status": "Removed", "value": item.get("value old")}
-        item_new = {"status": "Added", "value": item.get("value new")}
+    if status == "changed":
+        item_old = {"status": "removed", "value": item.get("value old")}
+        item_new = {"status": "added", "value": item.get("value new")}
 
         return (format_item(nested_level, key, item_old) + "\n"
                 + format_item(nested_level, key, item_new))
@@ -42,11 +42,11 @@ def is_valid_item(item):
     if not isinstance(item, dict) or len(item) < 2:
         return False
 
-    valid_status_options = ["Unchanged", "Changed", "Added", "Removed"]
+    valid_status_options = ["unchanged", "changed", "added", "removed", "nested dict"]
     if item.get("status") not in valid_status_options:
         return False
 
-    if (item.get("status") == "Changed" and len(item) == 3
+    if (item.get("status") == "changed" and len(item) == 3
             and "value old" in item and "value new" in item):
         return True
 
@@ -108,13 +108,14 @@ def format_line(nested_level: int, key, item):
 
 
 def format_plus_minus(status):
-    assert status in ["Unchanged", "Added", "Removed"]
+    assert status in ["unchanged", "added", "removed", "nested dict"], \
+        "changed has to be refactored to added and removed"
 
     plus_minus = " "
 
-    if status == "Added":
+    if status == "added":
         plus_minus = "+"
-    elif status == "Removed":
+    elif status == "removed":
         plus_minus = "-"
 
     return plus_minus
