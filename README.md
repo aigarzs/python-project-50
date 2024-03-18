@@ -23,12 +23,12 @@ This project was built using these tools:
 `poetry run gendiff [-h] [-f FORMAT] first_file second_file`  
   
 positional arguments:  
-  first_file  
-  second_file  
+&nbsp; &nbsp; &nbsp; first_file  
+&nbsp; &nbsp; &nbsp; second_file  
   
 options:  
-  -h, --help                  show help message and exit  
-  -f FORMAT, --format FORMAT  set format of output  
+&nbsp; &nbsp; &nbsp; -h, --help &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; show help message and exit  
+&nbsp; &nbsp; &nbsp; -f FORMAT, --format FORMAT  &nbsp; &nbsp; &nbsp; set format of output  
   
 If option --format omitted, default format `stylish` is applied.
 Available output formats are `plain` `stylish` `json`
