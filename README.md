@@ -40,7 +40,7 @@ Available output formats are `plain` `stylish` `json`
 ---
 ## Requirements
 
-| Tool &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   | Description                                                      |
+| Tool &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Description                                                                                           |
 |-----------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | [python 3](https://www.python.org/downloads/) | Python is a programming language that lets you work more quickly and integrate your systems more effectively. |
 | [poetry](https://poetry.eustace.io/)          | Python dependency management and packaging made easy.                                                         |
