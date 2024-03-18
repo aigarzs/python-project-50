@@ -32,6 +32,7 @@ jobs:
         env:
           #CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
           CC_TEST_REPORTER_ID: a2a0680dd8a882e3e6d0015ec6428a37fb1df93a074668fdb6b6638941c58ff5
+          COVERAGE_FILE: .coverage
         with:
           coverageCommand: make test-coverage
           debug: true

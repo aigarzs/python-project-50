@@ -12,10 +12,10 @@ and outputs differences in various formats.
 
 This project was built using these tools:
 
-| Tool                                           | Description                                             |
-|------------------------------------------------|---------------------------------------------------------|
-| [poetry](https://poetry.eustace.io/)           | "Python dependency management and packaging made easy"  |
-| [flake8](https://flake8.pycqa.org/en/latest/)  | "Your Tool For Style Guide Enforcement"                 |
+| Tool                                           | Description                                           |
+|------------------------------------------------|-------------------------------------------------------|
+| [poetry](https://poetry.eustace.io/)           | Python dependency management and packaging made easy  |
+| [flake8](https://flake8.pycqa.org/en/latest/)  | Your Tool For Style Guide Enforcement                 |
 
 
 ## Usage
@@ -44,7 +44,7 @@ Available output formats are `plain` `stylish` `json`
 | Tool                                          | Description                                                                                                   |
 |-----------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | [python 3](https://www.python.org/downloads/) | Python is a programming language that lets you work more quickly and integrate your systems more effectively. |
-| [poetry](https://poetry.eustace.io/)          | "Python dependency management and packaging made easy"                                                        |
+| [poetry](https://poetry.eustace.io/)          | Python dependency management and packaging made easy.                                                         |
 
 
 ---
