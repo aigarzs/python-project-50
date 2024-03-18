@@ -23,7 +23,9 @@ gendiff = "gendiff.scripts.gendiff:main"
 flake8 = "^6.0.0"
 pytest = "^7.4.4"
 pytest-cov = "^4.1.0"
-#clover = "^0.2.2"
+# clover = "^0.2.2"
+# codeclimate-test-reporter = "^0.2.3"
+
 
 
 [build-system]
