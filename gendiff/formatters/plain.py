@@ -1,9 +1,8 @@
 def get_report(diff: dict):
-    result = ""
 
-    for key in diff.keys():
-        result += format_item("", key, diff[key])
+    result = "".join(format_item("", key, diff[key]) for key in diff.keys())
 
+    # Remove last row's \n
     return result[:-1]
 
 
@@ -14,12 +13,14 @@ def format_item(nested_key, key, item):
         1) item => Dict - {status, value}
         2) item => Dict - {status, nested dictionary}
 
-        dictionary value in form not `gendiff.compare` diff dict never reaches this method,
+        dictionary value in form not `gendiff.compare`
+        diff dict never reaches this method,
         because Changed dictionary is returned as str("[complex value]")
         """
-    assert is_valid_item(item), "Working only with items => dict{status, value/dict}"
+    assert is_valid_item(item), \
+        "Working only with items => dict{status, value/dict}"
 
-    full_key = format_key(nested_key, key)
+    full_key = f"{nested_key}.{key}" if len(nested_key) > 1 else key
     status = item.get("status")
     value = item.get("value")
 
@@ -38,7 +39,11 @@ def is_valid_item(item):
     if not isinstance(item, dict) or len(item) < 2:
         return False
 
-    valid_status_options = ["unchanged", "changed", "added", "removed", "nested dict"]
+    valid_status_options = ["unchanged",
+                            "changed",
+                            "added",
+                            "removed",
+                            "nested dict"]
     if item.get("status") not in valid_status_options:
         return False
 
@@ -49,15 +54,9 @@ def is_valid_item(item):
     return len(item) == 2 and "value" in item
 
 
-def format_key(nested_key, key):
-    if len(nested_key) > 1:
-        return nested_key + "." + key
-    else:
-        return key
-
-
 def format_row(full_key, item):
-    assert is_valid_item(item), "Working only with items `gendiff.compare` diff dict"
+    assert is_valid_item(item), \
+        "Working only with items `gendiff.comparator` diff dict"
     assert item.get("status") in ["changed", "added", "removed"], \
         "Working only with statuses ['changed', 'added', 'removed']"
 
@@ -65,7 +64,9 @@ def format_row(full_key, item):
     result = ""
     if status == "changed":
         result = f"Property '{full_key}' was updated. "
-        result += f"From {format_value(item.get('value old'))} to {format_value(item.get('value new'))}"
+        value_old = format_value(item.get("value old"))
+        value_new = format_value(item.get("value new"))
+        result += f"From {value_old} to {value_new}"
     elif status == "added":
         result = f"Property '{full_key}' was added "
         result += f"with value: {format_value(item.get('value'))}"

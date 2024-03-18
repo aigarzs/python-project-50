@@ -1,4 +1,4 @@
-def compare_dictionaries(dict1: dict, dict2: dict):
+def build_diff_tree(dict1: dict, dict2: dict):
     result = {}
 
     all_keys = sorted(set(dict1) | set(dict2))
@@ -8,7 +8,7 @@ def compare_dictionaries(dict1: dict, dict2: dict):
             value1, value2 = dict1[key], dict2[key]
             if isinstance(value1, dict) and isinstance(value2, dict):
                 result[key] = {"status": "nested dict",
-                               "value": compare_dictionaries(value1, value2)}
+                               "value": build_diff_tree(value1, value2)}
 
             elif value1 == value2:
                 result[key] = {"status": "unchanged", "value": value1}

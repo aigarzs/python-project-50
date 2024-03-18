@@ -14,34 +14,33 @@ This project was built using these tools:
 
 | Tool                                           | Description                                           |
 |------------------------------------------------|-------------------------------------------------------|
-| [poetry](https://poetry.eustace.io/)           | Python dependency management and packaging made easy  |
-| [flake8](https://flake8.pycqa.org/en/latest/)  | Your Tool For Style Guide Enforcement                 |
+| [poetry](https://poetry.eustace.io/)           | Python dependency management and packaging made easy. |
+| [flake8](https://flake8.pycqa.org/en/latest/)  | Your Tool For Style Guide Enforcement.                |
 
 
 ## Usage
 
-`poetry run gendiff [-h] [-f FORMAT] first_file second_file`
-
-positional arguments:
-  first_file
-  second_file
-
-options:
-  -h, --help                  show help message and exit
-  -f FORMAT, --format FORMAT  set format of output
-
-
+`poetry run gendiff [-h] [-f FORMAT] first_file second_file`  
+  
+positional arguments:  
+  first_file  
+  second_file  
+  
+options:  
+  -h, --help                  show help message and exit  
+  -f FORMAT, --format FORMAT  set format of output  
+  
 If option --format omitted, default format `stylish` is applied.
 Available output formats are `plain` `stylish` `json`
-
-
+  
+  
 ## Demo
 [![asciicast](https://asciinema.org/a/KdAJcfbbLxFVwJ081zpw6xs17.svg)](https://asciinema.org/a/KdAJcfbbLxFVwJ081zpw6xs17)
 
 ---
 ## Requirements
 
-| Tool                                          | Description                                                                                                   |
+| <div style="width:100px">Tool</div>           | Description                                                                                                   |
 |-----------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | [python 3](https://www.python.org/downloads/) | Python is a programming language that lets you work more quickly and integrate your systems more effectively. |
 | [poetry](https://poetry.eustace.io/)          | Python dependency management and packaging made easy.                                                         |

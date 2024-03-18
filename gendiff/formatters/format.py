@@ -9,4 +9,4 @@ def get_format(diff_dict, format_name):
     elif format_name == "json":
         return json.get_report(diff_dict)
     else:
-        raise TypeError(f"Unknown report format = '{format_name}'")
+        raise ValueError(f"Unknown report format = '{format_name}'")

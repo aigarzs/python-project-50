@@ -52,7 +52,8 @@ def filter_dict_added(diff: dict):
             elif status == "changed":
                 value = item.get("value new")
                 result.update({key: value})
-            elif status == "nested dict" and isinstance(item.get("value"), dict):
+            elif (status == "nested dict"
+                  and isinstance(item.get("value"), dict)):
                 value = item.get("value")
                 value = filter_dict_added(value)
                 result.update({key: value})
@@ -72,7 +73,8 @@ def filter_dict_removed(diff: dict):
             elif status == "changed":
                 value = item.get("value old")
                 result.update({key: value})
-            elif status == "nested dict" and isinstance(item.get("value"), dict):
+            elif (status == "nested dict"
+                  and isinstance(item.get("value"), dict)):
                 value = item.get("value")
                 value = filter_dict_removed(value)
                 result.update({key: value})
@@ -84,7 +86,11 @@ def is_gendiff_item(item):
     if not isinstance(item, dict) or len(item) < 2:
         return False
 
-    valid_status_options = ["unchanged", "changed", "added", "removed", "nested dict"]
+    valid_status_options = ["unchanged",
+                            "changed",
+                            "added",
+                            "removed",
+                            "nested dict"]
     if item.get("status") not in valid_status_options:
         return False
 

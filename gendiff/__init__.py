@@ -1,2 +1,2 @@
 from gendiff.gendiff import generate_diff
-from gendiff.compare import compare_dictionaries
+from gendiff.comparator import build_diff_tree

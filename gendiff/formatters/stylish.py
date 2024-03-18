@@ -1,8 +1,7 @@
 def get_report(diff: dict):
-    result = "{"
+    result = "{\n"
 
-    for key in diff.keys():
-        result += "\n" + format_item(1, key, diff[key])
+    result += "\n".join(format_item(1, key, diff[key]) for key in diff.keys())
 
     result += "\n}"
     return result
@@ -42,7 +41,11 @@ def is_valid_item(item):
     if not isinstance(item, dict) or len(item) < 2:
         return False
 
-    valid_status_options = ["unchanged", "changed", "added", "removed", "nested dict"]
+    valid_status_options = ["unchanged",
+                            "changed",
+                            "added",
+                            "removed",
+                            "nested dict"]
     if item.get("status") not in valid_status_options:
         return False
 
@@ -63,11 +66,13 @@ def format_dictionary(nested_level: int, key, item: dict):
     :return: str
     """
 
-    assert len(item) == 2, "This method works only with gendiff.compare prepared diff dictionary"
-    assert isinstance(item.get("value"), dict), "This method works only for values of type dict"
+    assert len(item) == 2, \
+        "This method works only with gendiff.compare prepared diff dictionary"
+    assert isinstance(item.get("value"), dict), \
+        "This method works only for values of type dict"
 
     status = item.get("status")
-    plus_minus = format_plus_minus(status)
+    plus_minus = {"added": "+", "removed": "-"}.get(status, " ")
     dct = item.get("value")
 
     result = (" " * (4 * nested_level - 2)
@@ -91,10 +96,11 @@ def format_line(nested_level: int, key, item):
     :return: str
     """
 
-    assert len(item) == 2, "This method works only with gendiff.compare prepared diff dictionary"
+    assert len(item) == 2, \
+        "This method works only with gendiff.compare prepared diff dictionary"
 
     status = item.get("status")
-    plus_minus = format_plus_minus(status)
+    plus_minus = {"added": "+", "removed": "-"}.get(status, " ")
     value = item.get("value")
 
     result = (" " * (4 * nested_level - 2)
@@ -105,20 +111,6 @@ def format_line(nested_level: int, key, item):
     result += " " + format_value_json_style(value)
 
     return result
-
-
-def format_plus_minus(status):
-    assert status in ["unchanged", "added", "removed", "nested dict"], \
-        "changed has to be refactored to added and removed"
-
-    plus_minus = " "
-
-    if status == "added":
-        plus_minus = "+"
-    elif status == "removed":
-        plus_minus = "-"
-
-    return plus_minus
 
 
 def format_value_json_style(value):
