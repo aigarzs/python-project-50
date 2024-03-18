@@ -40,8 +40,9 @@ Available output formats are `plain` `stylish` `json`
 ---
 ## Requirements
 
-| <div style="width:150px">Tool</div>           | Description                                                                                                   |
+| Tool                                          | Description                                                                                                   |
 |-----------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+|<img width=200/>                               |                                                                                                               |
 | [python 3](https://www.python.org/downloads/) | Python is a programming language that lets you work more quickly and integrate your systems more effectively. |
 | [poetry](https://poetry.eustace.io/)          | Python dependency management and packaging made easy.                                                         |
 
