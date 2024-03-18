@@ -9,6 +9,10 @@ TESTS_DIR = os.path.abspath("tests")
 FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 
+def get_full_file_path(file):
+    return f"{FIXTURES_PATH}/{file}"
+
+
 @pytest.mark.parametrize("file1, file2, report_format, expected",
                          [
                              ("file1.json", "file2.json",
@@ -25,9 +29,9 @@ FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
                               "json", "result_json.json"),
                          ])
 def test_gendiff_nested(file1, file2, report_format, expected):
-    file1_path = f"{FIXTURES_PATH}/{file1}"
-    file2_path = f"{FIXTURES_PATH}/{file2}"
-    expected_path = f"{FIXTURES_PATH}/{expected}"
+    file1_path = get_full_file_path(file1)
+    file2_path = get_full_file_path(file2)
+    expected_path = get_full_file_path(expected)
     result = generate_diff(file1_path, file2_path, report_format)
     with open(expected_path) as expected_file:
         expected_result = expected_file.read()

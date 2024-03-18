@@ -18,20 +18,17 @@ def generate_diff(file_path1, file_path2, format_name="stylish"):
 
 
 def get_content(file_path):
-    file_format = get_file_format(file_path)
-    with open(file_path) as file:
-        return parse(file, file_format)
-
-
-def get_file_format(file_path):
     assert os.path.isfile(file_path), f"{file_path} is not a file"
     assert os.path.splitext(file_path)[1] in (".json", ".yml", ".yaml"), \
         "Only JSON, YML, YAML files allowed"
 
     if os.path.splitext(file_path)[1] == ".json":
-        return "json"
+        file_format = "json"
     else:
-        return "yaml"
+        file_format = "yaml"
+
+    with open(file_path) as file:
+        return parse(file, file_format)
 
 
 def parse(file_content, file_format):
