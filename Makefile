@@ -9,5 +9,5 @@ check:
 	poetry run pytest -s
 
 test-coverage:
-	poetry run pytest --cov=gendiff
+	poetry run pytest --cov-report xml --cov=gendiff
 
