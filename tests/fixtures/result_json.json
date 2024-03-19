@@ -1,91 +1,147 @@
 {
-    "unchanged": {
-        "common": {
-            "setting1": "Value 1",
+    "common": {
+        "status": "nested dict",
+        "value": {
+            "follow": {
+                "status": "added",
+                "value": false
+            },
+            "setting1": {
+                "status": "unchanged",
+                "value": "Value 1"
+            },
+            "setting2": {
+                "status": "removed",
+                "value": 200
+            },
+            "setting3": {
+                "status": "changed",
+                "value old": true,
+                "value new": {
+                    "key": "value"
+                }
+            },
+            "setting4": {
+                "status": "added",
+                "value": "blah blah"
+            },
+            "setting5": {
+                "status": "added",
+                "value": {
+                    "key5": "value5"
+                }
+            },
             "setting6": {
-                "doge": {},
-                "key": "value"
+                "status": "nested dict",
+                "value": {
+                    "doge": {
+                        "status": "nested dict",
+                        "value": {
+                            "wow": {
+                                "status": "changed",
+                                "value old": "too much",
+                                "value new": "so much"
+                            }
+                        }
+                    },
+                    "key": {
+                        "status": "unchanged",
+                        "value": "value"
+                    },
+                    "ops": {
+                        "status": "added",
+                        "value": "vops"
+                    }
+                }
             }
-        },
-        "group1": {
-            "foo": "bar"
-        },
-        "group4": {
-            "nest": {}
         }
     },
-    "added": {
-        "common": {
-            "follow": false,
-            "setting3": {
-                "key": "value"
+    "group1": {
+        "status": "nested dict",
+        "value": {
+            "baz": {
+                "status": "changed",
+                "value old": "bas",
+                "value new": "bars"
             },
-            "setting4": "blah blah",
-            "setting5": {
-                "key5": "value5"
+            "foo": {
+                "status": "unchanged",
+                "value": "bar"
             },
-            "setting6": {
-                "doge": {
-                    "wow": "so much"
+            "nest": {
+                "status": "changed",
+                "value old": {
+                    "key": "value"
                 },
-                "ops": "vops"
+                "value new": "str"
             }
-        },
-        "group1": {
-            "baz": "bars",
-            "nest": "str"
-        },
-        "group3": {
+        }
+    },
+    "group2": {
+        "status": "removed",
+        "value": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
+    },
+    "group3": {
+        "status": "added",
+        "value": {
             "deep": {
                 "id": {
                     "number": 45
                 }
             },
             "fee": 100500
-        },
-        "group4": {
-            "default": "",
-            "foo": null,
-            "isNested": "none",
-            "key": false,
-            "nest": {
-                "bar": 0
-            },
-            "someKey": true,
-            "type": "bar"
         }
     },
-    "removed": {
-        "common": {
-            "setting2": 200,
-            "setting3": true,
-            "setting6": {
-                "doge": {
-                    "wow": "too much"
-                }
-            }
-        },
-        "group1": {
-            "baz": "bas",
-            "nest": {
-                "key": "value"
-            }
-        },
-        "group2": {
-            "abc": 12345,
-            "deep": {
-                "id": 45
-            }
-        },
-        "group4": {
-            "default": null,
-            "foo": 0,
-            "isNested": false,
-            "nest": {
-                "bar": "",
-                "isNested": true
+    "group4": {
+        "status": "nested dict",
+        "value": {
+            "default": {
+                "status": "changed",
+                "value old": null,
+                "value new": ""
             },
-            "type": "bas"
+            "foo": {
+                "status": "changed",
+                "value old": 0,
+                "value new": null
+            },
+            "isNested": {
+                "status": "changed",
+                "value old": false,
+                "value new": "none"
+            },
+            "key": {
+                "status": "added",
+                "value": false
+            },
+            "nest": {
+                "status": "nested dict",
+                "value": {
+                    "bar": {
+                        "status": "changed",
+                        "value old": "",
+                        "value new": 0
+                    },
+                    "isNested": {
+                        "status": "removed",
+                        "value": true
+                    }
+                }
+            },
+            "someKey": {
+                "status": "added",
+                "value": true
+            },
+            "type": {
+                "status": "changed",
+                "value old": "bas",
+                "value new": "bar"
+            }
         }
     }
 }
