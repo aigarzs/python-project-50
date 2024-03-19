@@ -9,4 +9,3 @@ def get_report(diff: dict):
     #     outfile.write(result)
 
     return result
-
