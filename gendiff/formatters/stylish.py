@@ -72,12 +72,10 @@ def format_dictionary(nested_level: int, key, item: dict):
         "This method works only for values of type dict"
 
     status = item.get("status")
-    plus_minus = {"added": "+", "removed": "-"}.get(status, " ")
+    prefix = {"added": "+", "removed": "-"}.get(status, " ")
     dct = item.get("value")
 
-    result = (" " * (4 * nested_level - 2)
-              + plus_minus + " "
-              + str(key) + ": {\n")
+    result = build_line_indent(nested_level, prefix) + " " + str(key) + ": {\n"
 
     for key in dct:
         result += format_item(nested_level + 1, key, dct[key]) + "\n"
@@ -100,12 +98,10 @@ def format_line(nested_level: int, key, item):
         "This method works only with gendiff.compare prepared diff dictionary"
 
     status = item.get("status")
-    plus_minus = {"added": "+", "removed": "-"}.get(status, " ")
+    prefix = {"added": "+", "removed": "-"}.get(status, " ")
     value = item.get("value")
 
-    result = (" " * (4 * nested_level - 2)
-              + plus_minus + " "
-              + str(key) + ":")
+    result = build_line_indent(nested_level, prefix) + " " + str(key) + ":"
 
     # if value != "":
     result += " " + format_value_json_style(value)
@@ -120,3 +116,7 @@ def format_value_json_style(value):
         return str(value).lower()
     else:
         return str(value)
+
+
+def build_line_indent(nested_level, prefix):
+    return " " * (4 * nested_level - 2) + prefix
