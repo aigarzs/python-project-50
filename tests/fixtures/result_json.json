@@ -1,6 +1,6 @@
 {
     "common": {
-        "status": "nested dict",
+        "status": "nested",
         "value": {
             "follow": {
                 "status": "added",
@@ -32,10 +32,10 @@
                 }
             },
             "setting6": {
-                "status": "nested dict",
+                "status": "nested",
                 "value": {
                     "doge": {
-                        "status": "nested dict",
+                        "status": "nested",
                         "value": {
                             "wow": {
                                 "status": "changed",
@@ -57,7 +57,7 @@
         }
     },
     "group1": {
-        "status": "nested dict",
+        "status": "nested",
         "value": {
             "baz": {
                 "status": "changed",
@@ -98,7 +98,7 @@
         }
     },
     "group4": {
-        "status": "nested dict",
+        "status": "nested",
         "value": {
             "default": {
                 "status": "changed",
@@ -120,7 +120,7 @@
                 "value": false
             },
             "nest": {
-                "status": "nested dict",
+                "status": "nested",
                 "value": {
                     "bar": {
                         "status": "changed",

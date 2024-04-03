@@ -45,7 +45,7 @@ def is_valid_item(item):
                             "changed",
                             "added",
                             "removed",
-                            "nested dict"]
+                            "nested"]
     if item.get("status") not in valid_status_options:
         return False
 

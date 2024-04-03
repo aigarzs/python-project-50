@@ -28,7 +28,7 @@ def format_item(nested_key, key, item):
         return format_row(full_key, item) + "\n"
 
     # nested dict
-    elif status == "nested dict" and isinstance(value, dict):
+    elif status == "nested" and isinstance(value, dict):
         return "".join(format_item(full_key, k, value[k]) for k in value.keys())
 
     # else Unchanged return "" => skip this item
@@ -43,7 +43,7 @@ def is_valid_item(item):
                             "changed",
                             "added",
                             "removed",
-                            "nested dict"]
+                            "nested"]
     if item.get("status") not in valid_status_options:
         return False
 
