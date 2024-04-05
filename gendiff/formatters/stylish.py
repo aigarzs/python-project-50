@@ -7,19 +7,12 @@ def get_report(diff: dict):
     return result
 
 
-def format_item(nested_level: int, key, item):
+def format_item(nested_level: int, key: str, item):
     """
     1) item => Dict - {status, value}
     2) item => Dict - {status, nested dictionary}
-    3) item => value
-    4) item => nested dictionary
 
-    first ensure that item is of type dict{status, value}
-    then format_line either format_dictionary
     """
-
-    if not is_valid_item(item):
-        item = {"status": "unchanged", "value": item}
 
     status = item.get("status")
     value = item.get("value")
@@ -32,84 +25,81 @@ def format_item(nested_level: int, key, item):
                 + format_item(nested_level, key, item_new))
 
     if isinstance(value, dict):
-        return format_dictionary(nested_level, key, item)
+        if status == "nested":
+            return format_nested_dictionary(nested_level, status, key, value)
+        else:
+            return format_plain_dictionary(nested_level, status, key, value)
+
     else:
-        return format_line(nested_level, key, item)
+        return format_line(nested_level, status, key, value)
 
 
-def is_valid_item(item):
-    if not isinstance(item, dict) or len(item) < 2:
-        return False
-
-    valid_status_options = ["unchanged",
-                            "changed",
-                            "added",
-                            "removed",
-                            "nested"]
-    if item.get("status") not in valid_status_options:
-        return False
-
-    if (item.get("status") == "changed" and len(item) == 3
-            and "value old" in item and "value new" in item):
-        return True
-
-    return len(item) == 2 and "value" in item
-
-
-def format_dictionary(nested_level: int, key, item: dict):
+def format_plain_dictionary(nested_level: int, status: str, key: str,
+                            item: dict):
     """
 
     :param nested_level:
-    :param key:
-    :param item: dict{status, value}
-    status => Unchanged / Added / Removed
-    :return: str
+    :param status:
+    :param key
+    :param item:
+    :return: formatted stylish report multiple lines
     """
 
-    assert len(item) == 2, \
-        "This method works only with gendiff.compare prepared diff dictionary"
-    assert isinstance(item.get("value"), dict), \
-        "This method works only for values of type dict"
-
-    status = item.get("status")
     prefix = {"added": "+", "removed": "-"}.get(status, " ")
-    dct = item.get("value")
-
     result = build_line_indent(nested_level, prefix) + " " + str(key) + ": {\n"
+    for k in item:
+        if isinstance(item[k], dict):
+            result += format_plain_dictionary(nested_level + 1,
+                                              "unchanged",
+                                              k,
+                                              item[k]) + "\n"
+        else:
+            result += format_line(nested_level + 1,
+                                  "unchanged",
+                                  k,
+                                  item[k]) + "\n"
 
-    for key in dct:
-        result += format_item(nested_level + 1, key, dct[key]) + "\n"
+    result += (" " * 4 * nested_level) + "}"
+    return str(result)
+
+
+def format_nested_dictionary(nested_level: int, status: str, key: str,
+                             item: dict):
+    """
+    :param nested_level:
+    :param status: => nested
+    :param key:
+    :param item:
+    :return: formatted stylish report multiple lines
+    """
+
+    result = build_line_indent(nested_level, " ") + " " + str(key) + ": {\n"
+
+    for key in item:
+        result += format_item(nested_level + 1, key, item[key]) + "\n"
 
     result += (" " * 4 * nested_level) + "}"
     return result
 
 
-def format_line(nested_level: int, key, item):
+def format_line(nested_level: int, status: str, key: str, value):
     """
 
     :param nested_level:
+    :param status:
     :param key:
-    :param item: dict{status, value}
-    status => Unchanged / Added / Removed
-    :return: str
+    :param value:
+    :return: formatted stylish report line
     """
 
-    assert len(item) == 2, \
-        "This method works only with gendiff.compare prepared diff dictionary"
-
-    status = item.get("status")
     prefix = {"added": "+", "removed": "-"}.get(status, " ")
-    value = item.get("value")
-
-    result = build_line_indent(nested_level, prefix) + " " + str(key) + ":"
-
-    # if value != "":
-    result += " " + format_value_json_style(value)
+    result = build_line_indent(nested_level, prefix) + " " + str(key) + ": "
+    result += format_value(value)
 
     return result
 
 
-def format_value_json_style(value):
+def format_value(value):
     if value is None:
         return "null"
     elif type(value) is bool:
@@ -118,5 +108,5 @@ def format_value_json_style(value):
         return str(value)
 
 
-def build_line_indent(nested_level, prefix):
+def build_line_indent(nested_level: int, prefix: str):
     return " " * (4 * nested_level - 2) + prefix
