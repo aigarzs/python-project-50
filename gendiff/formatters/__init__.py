@@ -1,1 +1,1 @@
-from gendiff.formatters.format import get_format
+from gendiff.formatters.format import apply_formatter

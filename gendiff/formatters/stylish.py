@@ -1,100 +1,47 @@
 def get_report(diff: dict):
     result = "{\n"
-
-    result += "\n".join(format_item(1, key, diff[key]) for key in diff.keys())
-
-    result += "\n}"
+    result += format_diff(1, diff)
+    result += "}"
     return result
 
 
-def format_item(nested_level: int, key: str, item):
-    """
-    1) item => Dict - {status, value}
-    2) item => Dict - {status, nested dictionary}
+def format_diff(nested_level: int, diff: dict):
+    result = ""
 
-    """
+    for key, value in diff.items():
+        status = value.get("status")
+        if status == "nested":
+            result += (build_line_indent(nested_level, " ") + " "
+                       + str(key) + ": {\n")
+            result += format_diff(nested_level + 1, value.get("value"))
+            result += (" " * 4 * nested_level) + "}\n"
 
-    status = item.get("status")
-    value = item.get("value")
+        elif status == "changed":
+            result += format_item(nested_level,
+                                  "-", key, value.get("value old"))
+            result += format_item(nested_level,
+                                  "+", key, value.get("value new"))
 
-    if status == "changed":
-        item_old = {"status": "removed", "value": item.get("value old")}
-        item_new = {"status": "added", "value": item.get("value new")}
+        elif status in ("removed", "added", "unchanged"):
+            prefix = {"added": "+", "removed": "-"}.get(status, " ")
+            result += format_item(nested_level,
+                                  prefix, key, value.get("value"))
 
-        return (format_item(nested_level, key, item_old) + "\n"
-                + format_item(nested_level, key, item_new))
+    return result
+
+
+def format_item(nested_level: int, prefix: str, key: str, value):
+    result = (build_line_indent(nested_level, prefix) + " "
+              + str(key) + ": ")
 
     if isinstance(value, dict):
-        if status == "nested":
-            return format_nested_dictionary(nested_level, status, key, value)
-        else:
-            return format_plain_dictionary(nested_level, status, key, value)
-
+        result += "{\n"
+        for k, v in value.items():
+            result += format_item(nested_level + 1,
+                                  " ", k, v)
+        result += (" " * 4 * nested_level) + "}\n"
     else:
-        return format_line(nested_level, status, key, value)
-
-
-def format_plain_dictionary(nested_level: int, status: str, key: str,
-                            item: dict):
-    """
-
-    :param nested_level:
-    :param status:
-    :param key
-    :param item:
-    :return: formatted stylish report multiple lines
-    """
-
-    prefix = {"added": "+", "removed": "-"}.get(status, " ")
-    result = build_line_indent(nested_level, prefix) + " " + str(key) + ": {\n"
-    for k in item:
-        if isinstance(item[k], dict):
-            result += format_plain_dictionary(nested_level + 1,
-                                              "unchanged",
-                                              k,
-                                              item[k]) + "\n"
-        else:
-            result += format_line(nested_level + 1,
-                                  "unchanged",
-                                  k,
-                                  item[k]) + "\n"
-
-    result += (" " * 4 * nested_level) + "}"
-    return str(result)
-
-
-def format_nested_dictionary(nested_level: int, status: str, key: str,
-                             item: dict):
-    """
-    :param nested_level:
-    :param status: => nested
-    :param key:
-    :param item:
-    :return: formatted stylish report multiple lines
-    """
-
-    result = build_line_indent(nested_level, " ") + " " + str(key) + ": {\n"
-
-    for key in item:
-        result += format_item(nested_level + 1, key, item[key]) + "\n"
-
-    result += (" " * 4 * nested_level) + "}"
-    return result
-
-
-def format_line(nested_level: int, status: str, key: str, value):
-    """
-
-    :param nested_level:
-    :param status:
-    :param key:
-    :param value:
-    :return: formatted stylish report line
-    """
-
-    prefix = {"added": "+", "removed": "-"}.get(status, " ")
-    result = build_line_indent(nested_level, prefix) + " " + str(key) + ": "
-    result += format_value(value)
+        result += format_value(value) + "\n"
 
     return result
 

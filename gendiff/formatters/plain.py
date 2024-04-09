@@ -17,9 +17,6 @@ def format_item(nested_key, key, item):
         diff dict never reaches this method,
         because Changed dictionary is returned as str("[complex value]")
         """
-    assert is_valid_item(item), \
-        "Working only with items => dict{status, value/dict}"
-
     full_key = f"{nested_key}.{key}" if len(nested_key) > 1 else key
     status = item.get("status")
     value = item.get("value")
@@ -35,31 +32,7 @@ def format_item(nested_key, key, item):
     return ""
 
 
-def is_valid_item(item):
-    if not isinstance(item, dict) or len(item) < 2:
-        return False
-
-    valid_status_options = ["unchanged",
-                            "changed",
-                            "added",
-                            "removed",
-                            "nested"]
-    if item.get("status") not in valid_status_options:
-        return False
-
-    if (item.get("status") == "changed" and len(item) == 3
-            and "value old" in item and "value new" in item):
-        return True
-
-    return len(item) == 2 and "value" in item
-
-
 def format_row(full_key, item):
-    assert is_valid_item(item), \
-        "Working only with items `gendiff.comparator` diff dict"
-    assert item.get("status") in ["changed", "added", "removed"], \
-        "Working only with statuses ['changed', 'added', 'removed']"
-
     status = item.get("status")
     result = ""
     if status == "changed":
